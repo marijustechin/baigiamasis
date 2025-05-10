@@ -1,0 +1,12 @@
+PORT=3003
+
+VERY_SECRET=368dfb94f616cdd917c43b4589e16a8c1eb4e4438850279e67c6fdecffc8c826917920a95917195adbb4aa78b48c1ccbf632c86416e98fa409b197c28ee7c4b35f6736015ce18748ebc6eb2a9d8ad8428f1011d7eb5b5aa511d7fd0263bddf9b1d9dbf4960ab85e14117bb4a143bd389ea06f645b786315db0e6a5c90a1c07e2
+
+MONGO_URI=mongodb+srv://your_user_name_here:your_password_here@cluster0.f7fgmza.mongodb.net/your_db_name_here?retryWrites=true&w=majority&appName=Cluster0
+
+# "true" jei nori, kad startuodamas serveris 
+# patikrintu, ar yra "admin" naudotojas
+# ir jei nera,
+# sukurtu numatytaji admin naudotoja
+# username: admin, password: admin
+SEED_ADMIN=false
