@@ -3,10 +3,15 @@ import { z, ZodError } from 'zod';
 
 import { StatusCodes } from 'http-status-codes';
 
-export function validateData(schema: z.ZodObject<any, any>) {
+export function validateData(
+  schema: z.ZodObject<any, any>,
+  source: 'body' | 'params' | 'query' = 'body'
+) {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse(req.body);
+      // cia reikes perdaryti i safeParse (kol kas bus gerai taip)
+      schema.parse(req[source]);
+
       next();
     } catch (error) {
       if (error instanceof ZodError) {

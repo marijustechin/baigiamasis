@@ -16,8 +16,6 @@ export const isAuthenticated = async (
 
     if (!existingUser) throw ApiError.Unauthorized();
 
-    // here I want to add user to request with this middleware on protected routes
-
     return next();
   } catch (error) {
     next(error);

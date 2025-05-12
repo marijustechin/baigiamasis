@@ -2,13 +2,11 @@ import { createUser, getUserByEmail } from '../models/user.model';
 import { authentication, random } from './auth.service';
 
 export default class SystemService {
-  static async seedAddmin() {
+  static async seedAdmin() {
     const existingAdmin = await getUserByEmail('admin@pastas.lt');
 
     if (existingAdmin) {
-      console.log(
-        '‼️ Admin user already exists\n You can change SEED_ADMIN to fasle'
-      );
+      console.log('‼️ Admin exists — set SEED_ADMIN=false in your .env');
       return;
     }
 

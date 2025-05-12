@@ -16,6 +16,7 @@ export const userRegisterSchema = z.object({
     .email({ message: 'Invalid email format' }),
   password: z
     .string()
+    .trim()
     .min(6, { message: 'Password must be at least 6 characters' })
     .max(64, { message: 'Password must not exceed 64 characters' })
     .regex(/[A-Z]/, { message: 'At least 1 uppercase letter required' })
@@ -31,4 +32,12 @@ export const userLoginSchema = z.object({
     .toLowerCase()
     .email({ message: 'Invalid email format' }),
   password: z.string().trim(),
+});
+
+export const mongoIdSchema = z.object({
+  id: z
+    .string()
+    .trim()
+    .length(24, 'Invalid id length')
+    .regex(/^[a-f\d]{24}$/i, 'Invalid id format'),
 });

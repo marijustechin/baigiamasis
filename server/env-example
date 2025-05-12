@@ -9,4 +9,4 @@ MONGO_URI=mongodb+srv://your_user_name_here:your_password_here@cluster0.f7fgmza.
 # ir jei nera,
 # sukurtu numatytaji admin naudotoja
 # username: admin, password: admin
-SEED_ADMIN=false
+SEED_ADMIN=true

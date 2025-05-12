@@ -1,5 +1,11 @@
 import ApiError from '../errors/api.errors';
-import { createUser, getUserByEmail } from '../models/user.model';
+import {
+  createUser,
+  deleteUser,
+  getUserByEmail,
+  getUserById,
+  getUsers,
+} from '../models/user.model';
 import { authentication, random } from './auth.service';
 
 export default class UserService {
@@ -31,7 +37,15 @@ export default class UserService {
   static async login(
     email: string,
     password: string
-  ): Promise<{ email: string; username: string; sessionToken: string }> {
+  ): Promise<{
+    userData: {
+      _id: string;
+      username: string;
+      email: string;
+      role: string;
+    };
+    userToken: string;
+  }> {
     const user = await getUserByEmail(email).select(
       '+authentication.salt +authentication.password'
     );
@@ -42,7 +56,7 @@ export default class UserService {
     if (!user.authentication.salt)
       throw ApiError.BadRequest('Here we need some improvement');
 
-    const expectedHash = authentication(user.authentication?.salt, password);
+    const expectedHash = authentication(user.authentication.salt, password);
 
     if (user.authentication.password !== expectedHash)
       throw ApiError.BadRequest('Incorect user email or password');
@@ -56,9 +70,28 @@ export default class UserService {
     await user.save();
 
     return {
-      username: user.username,
-      email: user.email,
-      sessionToken: user.authentication.sessionToken,
+      userData: {
+        _id: user._id.toString(),
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+      userToken: user.authentication.sessionToken,
     };
+  }
+
+  static async getAllUsers() {
+    const allUsers = await getUsers();
+
+    return allUsers;
+  }
+
+  static async deleteUser(id: string) {
+    // ar toks yra?
+    const user = await getUserById(id);
+
+    if (!user) throw ApiError.NotFound();
+
+    return await deleteUser(id);
   }
 }
