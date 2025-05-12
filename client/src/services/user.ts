@@ -1,14 +1,5 @@
 import $axios from '../config/api';
-
-interface IAuthResponse {
-  success: boolean;
-  data: {
-    _id: string;
-    username: string;
-    email: string;
-    role: string;
-  };
-}
+import type { IAuthResponse } from '../types/user';
 
 export default class UserService {
   static async login(email: string, password: string): Promise<IAuthResponse> {

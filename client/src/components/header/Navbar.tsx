@@ -1,7 +1,11 @@
 import { Link } from 'react-router';
 import { navLinks } from './NavbarLinks';
+import { useAuthStore } from '../../stores/authStore';
 
 export const Navbar = () => {
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+
   return (
     <nav className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -47,9 +51,15 @@ export const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <button className="btn">
-          <Link to={'/login'}>Prisijungti</Link>
-        </button>
+        {user ? (
+          <button onClick={logout} className="btn">
+            Atsijungti
+          </button>
+        ) : (
+          <button className="btn">
+            <Link to={'/login'}>Prisijungti</Link>
+          </button>
+        )}
       </div>
     </nav>
   );

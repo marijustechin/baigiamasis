@@ -2,10 +2,15 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { userLoginSchema } from '../../schemas/user';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import UserService from '../../services/user';
+import { useAuthStore } from '../../stores/authStore';
+import { useEffect } from 'react';
 
 export const LoginForm = () => {
+  const { setUser } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,17 +23,27 @@ export const LoginForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (user?.role === 'ADMIN') {
+      navigate('/admin');
+    } else if (user?.role === 'USER') {
+      navigate('/user');
+    }
+  }, [user, navigate]);
+
   const onSubmit: SubmitHandler<z.infer<typeof userLoginSchema>> = async (
     formValues
   ) => {
     try {
-      const response = UserService.login(formValues.email, formValues.password);
-      console.log(response);
+      const response = await UserService.login(
+        formValues.email,
+        formValues.password
+      );
+      setUser(response.data);
     } catch (error) {
       // kol kas tik console log
       console.log(error);
     }
-    console.log(formValues);
   };
 
   return (
