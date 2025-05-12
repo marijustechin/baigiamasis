@@ -6,6 +6,8 @@ import { UserLayout } from './layouts/UserLayout';
 import { UserHomePage } from './pages/UserHomePage';
 import { AdminHomePage } from './pages/AdminHomePage';
 import { AdminLayout } from './layouts/AdminLayout';
+import { LoginPage } from './pages/LoginPage';
+import { SignUpPage } from './pages/SignUpPage';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignUpPage />} />
           {/* registracija, loginas, listingai */}
         </Route>
         <Route path="/user" element={<UserLayout />}>

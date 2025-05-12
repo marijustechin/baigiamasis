@@ -10,3 +10,5 @@ MONGO_URI=mongodb+srv://your_user_name_here:your_password_here@cluster0.f7fgmza.
 # sukurtu numatytaji admin naudotoja
 # username: admin, password: admin
 SEED_ADMIN=true
+
+CLIENT_URL=http://localhost:5173
