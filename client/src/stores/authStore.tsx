@@ -16,8 +16,8 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null }),
     }),
     {
-      name: 'auth-storage', // 🔐 Key in localStorage
-      partialize: (state) => ({ user: state.user }), // optional: save only user
+      name: 'auth-storage', // localstorage pavadinimas
+      partialize: (state) => ({ user: state.user }),
     }
   )
 );

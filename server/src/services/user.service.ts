@@ -13,7 +13,7 @@ export default class UserService {
     username: string,
     email: string,
     password: string
-  ): Promise<{ username: string; email: string }> {
+  ): Promise<{ _id: string; username: string; email: string }> {
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
@@ -31,7 +31,11 @@ export default class UserService {
       },
     });
 
-    return user;
+    return {
+      _id: user._id.toString(),
+      username: user.username,
+      email: user.email,
+    };
   }
 
   static async login(

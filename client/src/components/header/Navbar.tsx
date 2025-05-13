@@ -51,6 +51,7 @@ export const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
+        <input type="checkbox" defaultChecked className="toggle" />
         {user ? (
           <button onClick={logout} className="btn">
             Atsijungti

@@ -1,5 +1,5 @@
 import $axios from '../config/api';
-import type { IAuthResponse } from '../types/user';
+import type { IAuthResponse, IUser } from '../types/user';
 
 export default class UserService {
   static async login(email: string, password: string): Promise<IAuthResponse> {
@@ -17,6 +17,12 @@ export default class UserService {
       email,
       password,
     });
+    return response.data;
+  }
+
+  static async getAllUsers(): Promise<IUser[]> {
+    const response = await $axios.get('/user');
+
     return response.data;
   }
 }
