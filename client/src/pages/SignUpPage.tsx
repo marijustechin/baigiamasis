@@ -6,7 +6,7 @@ export const SignUpPage = () => {
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Ne pirmas kartas?</h1>
+          <h1 className="text-3xl font-semibold">Ne pirmas kartas?</h1>
           <Link to={'/login'} className="link link-primary">
             Prašome prisijungti
           </Link>

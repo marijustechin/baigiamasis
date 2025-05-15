@@ -22,7 +22,6 @@ export default class UserService {
 
   static async getAllUsers(): Promise<IUser[]> {
     const response = await $axios.get('/user');
-
-    return response.data;
+    return response.data.data;
   }
 }

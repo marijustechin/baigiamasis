@@ -3,14 +3,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { userLoginSchema } from '../../schemas/user';
 import { Link, useNavigate } from 'react-router';
-import UserService from '../../services/user';
+import UserService from '../../services/user.service';
 import { useAuthStore } from '../../stores/authStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import HelperService from '../../services/helper.service';
+import toast from 'react-hot-toast';
 
 export const LoginForm = () => {
   const { setUser } = useAuthStore();
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,15 +37,20 @@ export const LoginForm = () => {
   const onSubmit: SubmitHandler<z.infer<typeof userLoginSchema>> = async (
     formValues
   ) => {
+    setSubmitting(true);
     try {
       const response = await UserService.login(
         formValues.email,
         formValues.password
       );
       setUser(response.data);
-    } catch (error) {
-      // kol kas tik console log
-      console.log(error);
+    } catch (error: unknown) {
+      toast.error(HelperService.errorToString(error), {
+        duration: 5000,
+        position: 'top-center',
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -88,7 +96,7 @@ export const LoginForm = () => {
         </p>
       </div>
       <div className="form-control mt-6">
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
           Prisijungti
         </button>
       </div>

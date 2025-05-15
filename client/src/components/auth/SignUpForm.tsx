@@ -3,11 +3,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { userRegisterSchema } from '../../schemas/user';
 import { useNavigate } from 'react-router';
-import UserService from '../../services/user';
+import UserService from '../../services/user.service';
 import toast from 'react-hot-toast';
+import HelperService from '../../services/helper.service';
+import { useState } from 'react';
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -24,26 +27,24 @@ export const SignUpForm = () => {
   const onSubmit: SubmitHandler<z.infer<typeof userRegisterSchema>> = async (
     formValues
   ) => {
+    setSubmitting(true);
+
     try {
       await UserService.register(
         formValues.username,
         formValues.email,
         formValues.password
       );
-      toast(
-        <div className="toast toast-middle toast-center">
-          <div className="alert alert-info">
-            <span>Sėkmingai užsiregistravote!</span>
-          </div>
-          <div className="alert alert-success">
-            <span>Prašome prisijungti.</span>
-          </div>
-        </div>
-      );
+
+      toast.success('Sėkmingai užsiregistravote! Prašome prisijungti.');
       navigate('/login');
     } catch (error) {
-      // will be changed in time...
-      console.log(error);
+      toast.error(HelperService.errorToString(error), {
+        duration: 5000,
+        position: 'top-center',
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -101,7 +102,7 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className="form-control mt-6">
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
           Užsiregistruoti
         </button>
       </div>
