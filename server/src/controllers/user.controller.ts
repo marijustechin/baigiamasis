@@ -59,7 +59,25 @@ export default class UserController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const allUsers = await UserService.getAllUsers();
+      const {
+        page = '1',
+        limit = '10',
+        search = '',
+        role,
+        sortBy = 'username',
+        sortOrder = 'desc',
+      } = req.query;
+
+      const parsedQuery = {
+        page: parseInt(page as string) || 1,
+        limit: parseInt(limit as string) || 10,
+        search: search as string,
+        role: role as string,
+        sortBy: sortBy as string,
+        sortOrder: sortOrder === 'asc' ? 'asc' : 'desc',
+      };
+
+      const allUsers = await UserService.getAllUsers(parsedQuery);
 
       res.status(201).json({ success: true, data: allUsers });
     } catch (error) {
